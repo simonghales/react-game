@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Suspense } from 'react'
 import { Canvas } from 'react-three-fiber'
 import Box from '../../components/Box/Box'
 import Controls from '../../components/Controls/Controls'
 import Physics from '../../components/Physics/Physics'
 import Ground from '../../components/Ground/Ground'
 import { ablyChannel } from '../../ably/ably'
+import Asset from '../../components/Asset/Asset'
+import KnightMale from '../../components/characters/KnightMale/KnightMale'
+import Banana from '../../components/characters/Banana/Banana'
 
 const GameScreen: React.FC = () => {
   const [extraBlocks, setExtraBlocks] = useState(0)
@@ -22,16 +25,16 @@ const GameScreen: React.FC = () => {
   })
 
   const [groundLevel, setGroundLevel] = useState(3)
-  useEffect(() => {
-    setInterval(() => {
-      setGroundLevel(state => {
-        if (state > 0) {
-          return state - 1
-        }
-        return state
-      })
-    }, 2000)
-  }, [])
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     setGroundLevel(state => {
+  //       if (state > 0) {
+  //         return state - 1
+  //       }
+  //       return state
+  //     })
+  //   }, 2000)
+  // }, [])
   const extraBoxes =
     groundLevel <= 1 ? (
       <>
@@ -53,9 +56,16 @@ const GameScreen: React.FC = () => {
         {Array.from({ length: extraBlocks }).map((item, index) => {
           return <Box position={[1.2, 4, 0]} key={index.toString()} />
         })}
-        {Array.from({ length: groundLevel + 1 }).map((item, index) => {
-          return <Ground position={[0, -10 + index * 3, 0]} key={index.toString()} />
-        })}
+        <Ground position={[0, -0, 0]} />
+        {/* {Array.from({ length: groundLevel + 1 }).map((item, index) => { */}
+        {/*  return <Ground position={[0, -10 + index * 3, 0]} key={index.toString()} /> */}
+        {/* })} */}
+        {/* <Suspense fallback={<Box position={[1.2, 2, 0]} />}> */}
+        {/*  <Asset url="/Banana.gltf" /> */}
+        {/* </Suspense> */}
+        <Suspense fallback={null}>
+          <Banana position={[0, 0, 0]} />
+        </Suspense>
       </Physics>
     </Canvas>
   )

@@ -19,7 +19,7 @@ const Ground: React.FC<any> = ({ position, ...props }) => {
   return (
     <mesh ref={ref} {...props} position={position} rotation={rotation} receiveShadow>
       <planeBufferGeometry attach="geometry" args={[1000, 1000]} />
-      <meshPhongMaterial attach="material" color="#272727" side={THREE.DoubleSide} />
+      <meshPhongMaterial attach="material" color="#60a7d6" side={THREE.DoubleSide} />
     </mesh>
   )
 }
