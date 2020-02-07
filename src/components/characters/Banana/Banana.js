@@ -7,62 +7,62 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 export default function Banana(props) {
   const group = useRef()
-  const { nodes, materials, animations } = useLoader(GLTFLoader, '/Banana.gltf')
+  const { nodes, materials, animations } = useLoader(GLTFLoader, '/Banana.glb')
 
   const actions = useRef()
   const [mixer] = useState(() => new THREE.AnimationMixer())
   useFrame((state, delta) => mixer.update(delta))
   useEffect(() => {
     actions.current = {
-      Walking: mixer.clipAction(animations[0], group.current),
-      Victory_2: mixer.clipAction(animations[1], group.current),
-      Idle: mixer.clipAction(animations[2], group.current),
-      Defeat: mixer.clipAction(animations[3], group.current),
-      Victory: mixer.clipAction(animations[4], group.current),
-      Run: mixer.clipAction(animations[5], group.current),
-      Defeat_2: mixer.clipAction(animations[6], group.current)
+      BANANA_Defeat: mixer.clipAction(animations[0], group.current),
+      BANANA_Defeat_2: mixer.clipAction(animations[1], group.current),
+      BANANA_Idle: mixer.clipAction(animations[2], group.current),
+      BANANA_Run: mixer.clipAction(animations[3], group.current),
+      BANANA_Victory: mixer.clipAction(animations[4], group.current),
+      BANANA_Victory_2: mixer.clipAction(animations[5], group.current),
+      BANANA_Walking: mixer.clipAction(animations[6], group.current)
     }
-    actions.current.Defeat_2.play()
+    actions.current.BANANA_Idle.play()
     return () => animations.forEach(clip => mixer.uncacheClip(clip))
   }, [])
 
   return (
     <group ref={group} {...props} dispose={null}>
       <scene name="Scene">
-        <group name="HumanArmature" scale={[7.01, 7.01, 7.01]}>
+        <group name="HumanArmature" scale={[0.8, 0.8, 0.8]}>
           <primitive object={nodes.Bone} />
           <group name="Banana">
             <skinnedMesh
+              receiveShadow
+              castShadow
               material={materials.Yellow}
               geometry={nodes['Cylinder.012_0'].geometry}
               skeleton={nodes['Cylinder.012_0'].skeleton}
               name="Cylinder.012_0"
-              receiveShadow
-              castShadow
             />
             <skinnedMesh
+              receiveShadow
+              castShadow
               material={materials.Brown}
               geometry={nodes['Cylinder.012_1'].geometry}
               skeleton={nodes['Cylinder.012_1'].skeleton}
               name="Cylinder.012_1"
-              receiveShadow
-              castShadow
             />
             <skinnedMesh
+              receiveShadow
+              castShadow
               material={materials.Black}
               geometry={nodes['Cylinder.012_2'].geometry}
               skeleton={nodes['Cylinder.012_2'].skeleton}
               name="Cylinder.012_2"
-              receiveShadow
-              castShadow
             />
             <skinnedMesh
+              receiveShadow
+              castShadow
               material={materials.White}
               geometry={nodes['Cylinder.012_3'].geometry}
               skeleton={nodes['Cylinder.012_3'].skeleton}
               name="Cylinder.012_3"
-              receiveShadow
-              castShadow
             />
           </group>
         </group>

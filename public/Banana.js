@@ -7,20 +7,20 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 export default function Model(props) {
   const group = useRef()
-  const { nodes, materials, animations } = useLoader(GLTFLoader, '/Banana.gltf')
+  const { nodes, materials, animations } = useLoader(GLTFLoader, '/Banana.glb')
 
   const actions = useRef()
   const [mixer] = useState(() => new THREE.AnimationMixer())
   useFrame((state, delta) => mixer.update(delta))
   useEffect(() => {
     actions.current = {
-      Walking: mixer.clipAction(animations[0], group.current),
-      Victory_2: mixer.clipAction(animations[1], group.current),
-      Idle: mixer.clipAction(animations[2], group.current),
-      Defeat: mixer.clipAction(animations[3], group.current),
-      Victory: mixer.clipAction(animations[4], group.current),
-      Run: mixer.clipAction(animations[5], group.current),
-      Defeat_2: mixer.clipAction(animations[6], group.current)
+      BANANA_Defeat: mixer.clipAction(animations[0], group.current),
+      BANANA_Defeat_2: mixer.clipAction(animations[1], group.current),
+      BANANA_Idle: mixer.clipAction(animations[2], group.current),
+      BANANA_Run: mixer.clipAction(animations[3], group.current),
+      BANANA_Victory: mixer.clipAction(animations[4], group.current),
+      BANANA_Victory_2: mixer.clipAction(animations[5], group.current),
+      BANANA_Walking: mixer.clipAction(animations[6], group.current)
     }
     return () => animations.forEach(clip => mixer.uncacheClip(clip))
   }, [])

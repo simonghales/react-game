@@ -1,7 +1,8 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import GameScreen from '../../screens/GameScreen/GameScreen'
+import OldGameScreen from '../../screens/OldGameScreen/OldGameScreen'
 import ControllerScreen from '../../screens/ControllerScreen/ControllerScreen'
+import GameScreen from '../../screens/GameScreen/GameScreen'
 
 const App: React.FC = () => (
   <>
