@@ -16,6 +16,4 @@ const Floor: React.FC<Props> = ({ position = [0, 0, 0], ...props }) => {
   )
 }
 
-const color = '#E8BD6A'
-
 export default Floor

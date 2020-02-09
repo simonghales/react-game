@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import OldGameScreen from '../../screens/OldGameScreen/OldGameScreen'
 import ControllerScreen from '../../screens/ControllerScreen/ControllerScreen'
 import GameScreen from '../../screens/GameScreen/GameScreen'
+import GameState from '../GameState/GameState'
 
 const App: React.FC = () => (
   <>
@@ -12,7 +13,9 @@ const App: React.FC = () => (
           <ControllerScreen />
         </Route>
         <Route path="/">
+          {/* <GameState> */}
           <GameScreen />
+          {/* </GameState> */}
         </Route>
       </Switch>
     </Router>

@@ -7,7 +7,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 export default function Banana(props) {
   const group = useRef()
-  const { nodes, materials, animations } = useLoader(GLTFLoader, '/Banana.glb')
+  const gltf = useLoader(GLTFLoader, '/Banana.glb')
+  const { nodes, materials, animations } = gltf
 
   const actions = useRef()
   const [mixer] = useState(() => new THREE.AnimationMixer())

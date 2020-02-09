@@ -18,6 +18,44 @@ export interface GameTilesMdl {
   [key: string]: GameTileMdl
 }
 
+export enum GameCharacterType {
+  BANANA = 'BANANA',
+  DONUT = 'DONUT'
+}
+
+export interface GamePlayerMdl {
+  key: string
+  character: GameCharacterType
+  position: string
+  score: number
+  order: number
+}
+
+export interface GamePlayersMdl {
+  [key: string]: GamePlayerMdl
+}
+
+const PLAYER_00: GamePlayerMdl = {
+  key: '00',
+  character: GameCharacterType.BANANA,
+  position: '',
+  score: 0,
+  order: 0
+}
+
+const PLAYER_01: GamePlayerMdl = {
+  key: '01',
+  character: GameCharacterType.DONUT,
+  position: '',
+  score: 0,
+  order: 1
+}
+
+export const GAME_PLAYERS: GamePlayersMdl = {
+  [PLAYER_00.key]: PLAYER_00,
+  [PLAYER_01.key]: PLAYER_01
+}
+
 const GAME_TILE_00: GameTileMdl = {
   key: '00',
   position: [0, 0],
@@ -27,35 +65,35 @@ const GAME_TILE_00: GameTileMdl = {
 
 const GAME_TILE_01: GameTileMdl = {
   key: '01',
-  position: [1, 0],
+  position: [0, 1],
   type: GameTileType.BONUS1,
   nextTiles: ['02']
 }
 
 const GAME_TILE_02: GameTileMdl = {
   key: '02',
-  position: [2, 0],
-  type: GameTileType.PLAIN,
+  position: [0, 2],
+  type: GameTileType.BONUS1,
   nextTiles: ['03']
 }
 
 const GAME_TILE_03: GameTileMdl = {
   key: '03',
-  position: [3, 0],
-  type: GameTileType.PLAIN,
+  position: [0, 3],
+  type: GameTileType.BONUS1,
   nextTiles: ['04']
 }
 
 const GAME_TILE_04: GameTileMdl = {
   key: '04',
-  position: [3, 1],
-  type: GameTileType.PLAIN,
+  position: [1, 3],
+  type: GameTileType.BONUS1,
   nextTiles: ['05']
 }
 
 const GAME_TILE_05: GameTileMdl = {
   key: '05',
-  position: [3, 2],
+  position: [2, 3],
   type: GameTileType.NEGATIVE1,
   nextTiles: ['06']
 }
@@ -69,35 +107,35 @@ const GAME_TILE_06: GameTileMdl = {
 
 const GAME_TILE_07: GameTileMdl = {
   key: '07',
-  position: [2, 3],
+  position: [3, 2],
   type: GameTileType.BONUS2,
   nextTiles: ['08']
 }
 
 const GAME_TILE_08: GameTileMdl = {
   key: '08',
-  position: [1, 3],
+  position: [3, 1],
   type: GameTileType.STAR,
   nextTiles: ['09']
 }
 
 const GAME_TILE_09: GameTileMdl = {
   key: '09',
-  position: [0, 3],
+  position: [3, 0],
   type: GameTileType.PLAIN,
   nextTiles: ['10']
 }
 
 const GAME_TILE_10: GameTileMdl = {
   key: '10',
-  position: [0, 2],
+  position: [2, 0],
   type: GameTileType.CHALLENGE,
   nextTiles: ['11']
 }
 
 const GAME_TILE_11: GameTileMdl = {
   key: '11',
-  position: [0, 1],
+  position: [1, 0],
   type: GameTileType.NEGATIVE1,
   nextTiles: ['00']
 }
