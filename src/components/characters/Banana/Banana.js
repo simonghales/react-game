@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useLoader, useFrame } from 'react-three-fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
-export default function Banana(props) {
+export default function Banana({ walking, ...props }) {
   const group = useRef()
   const gltf = useLoader(GLTFLoader, '/Banana.glb')
   const { nodes, materials, animations } = gltf
@@ -23,12 +23,20 @@ export default function Banana(props) {
       BANANA_Victory_2: mixer.clipAction(animations[5], group.current),
       BANANA_Walking: mixer.clipAction(animations[6], group.current)
     }
-    actions.current.BANANA_Idle.play()
     return () => animations.forEach(clip => mixer.uncacheClip(clip))
   }, [])
 
+  useEffect(() => {
+    mixer.stopAllAction()
+    if (walking) {
+      actions.current.BANANA_Walking.play()
+    } else {
+      actions.current.BANANA_Idle.play()
+    }
+  }, [walking])
+
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group ref={group} position={[0, 0, 0]} {...props} dispose={null}>
       <scene name="Scene">
         <group name="HumanArmature" scale={[0.8, 0.8, 0.8]}>
           <primitive object={nodes.Bone} />

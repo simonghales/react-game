@@ -20,6 +20,8 @@ export interface GameTilesMdl {
 
 export enum GameCharacterType {
   BANANA = 'BANANA',
+  CHERRY = 'CHERRY',
+  PEACH = 'PEACH',
   DONUT = 'DONUT'
 }
 
@@ -51,9 +53,18 @@ const PLAYER_01: GamePlayerMdl = {
   order: 1
 }
 
+const PLAYER_02: GamePlayerMdl = {
+  key: '02',
+  character: GameCharacterType.PEACH,
+  position: '',
+  score: 0,
+  order: 1
+}
+
 export const GAME_PLAYERS: GamePlayersMdl = {
   [PLAYER_00.key]: PLAYER_00,
-  [PLAYER_01.key]: PLAYER_01
+  [PLAYER_01.key]: PLAYER_01,
+  [PLAYER_02.key]: PLAYER_02
 }
 
 const GAME_TILE_00: GameTileMdl = {

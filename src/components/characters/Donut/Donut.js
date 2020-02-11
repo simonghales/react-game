@@ -49,7 +49,7 @@ blackMaterial.skinning = true
 
 console.log('donutMaterial', donutMaterial)
 
-export default function Donut(props) {
+export default function Donut({ walking, ...props }) {
   const group = useRef()
   const { nodes, materials, animations } = useLoader(GLTFLoader, '/Donut.glb')
 
@@ -66,12 +66,20 @@ export default function Donut(props) {
       DONUT_Victory_2: mixer.clipAction(animations[5], group.current),
       DONUT_Walking: mixer.clipAction(animations[6], group.current)
     }
-    actions.current.DONUT_Idle.play()
     return () => animations.forEach(clip => mixer.uncacheClip(clip))
   }, [])
 
+  useEffect(() => {
+    mixer.stopAllAction()
+    if (walking) {
+      actions.current.DONUT_Walking.play()
+    } else {
+      actions.current.DONUT_Idle.play()
+    }
+  }, [walking])
+
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group ref={group} position={[0, 0, 0]} {...props} dispose={null}>
       <scene name="Scene">
         <group name="HumanArmature" scale={[0.8, 0.8, 0.8]}>
           <primitive object={nodes.Bone} />

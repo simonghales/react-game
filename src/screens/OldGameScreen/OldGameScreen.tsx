@@ -8,7 +8,7 @@ import { ablyChannel } from '../../ably/ably'
 import Asset from '../../components/Asset/Asset'
 import KnightMale from '../../components/characters/KnightMale/KnightMale'
 import Banana from '../../components/characters/Banana/Banana'
-import Donut from "../../components/characters/Donut/Donut";
+import Donut from '../../components/characters/Donut/Donut'
 
 const OldGameScreen: React.FC = () => {
   const [extraBlocks, setExtraBlocks] = useState(0)
@@ -64,12 +64,12 @@ const OldGameScreen: React.FC = () => {
         {/* <Suspense fallback={<Box position={[1.2, 2, 0]} />}> */}
         {/*  <Asset url="/Banana.gltf" /> */}
         {/* </Suspense> */}
-        <Suspense fallback={null}>
-          <Banana position={[0, 0, 0]} />
-        </Suspense>
-        <Suspense fallback={null}>
-          <Donut position={[0, 0, 4]} />
-        </Suspense>
+        {/* <Suspense fallback={null}> */}
+        {/*  <Banana position={[0, 0, 0]} /> */}
+        {/* </Suspense> */}
+        {/* <Suspense fallback={null}> */}
+        {/*  <Donut position={[0, 0, 4]} /> */}
+        {/* </Suspense> */}
       </Physics>
     </Canvas>
   )

@@ -1,13 +1,18 @@
 import React, { Suspense } from 'react'
+import { useSpring } from 'react-spring'
 import Banana from '../characters/Banana/Banana'
 import PlaceholderCube from '../PlaceholderCube/PlaceholderCube'
 import { V3 } from '../../utils/types'
 import { GameCharacterType } from '../../data/game'
 import Donut from '../characters/Donut/Donut'
+import Cherry from '../characters/Cherry/Cherry'
+import Peach from '../characters/Peach/Peach'
 
 const models = {
   [GameCharacterType.BANANA]: Banana,
-  [GameCharacterType.DONUT]: Donut
+  [GameCharacterType.DONUT]: Donut,
+  [GameCharacterType.CHERRY]: Cherry,
+  [GameCharacterType.PEACH]: Peach
 }
 
 const getCharacterModel = (type: GameCharacterType): React.FC<any> => {
@@ -19,15 +24,15 @@ const getCharacterModel = (type: GameCharacterType): React.FC<any> => {
 }
 
 interface Props {
+  walking: boolean
   type: GameCharacterType
-  position: V3
 }
 
-const Character: React.FC<Props> = ({ type, position }) => {
+const Character: React.FC<Props> = ({ walking, type }) => {
   const Model = getCharacterModel(type)
   return (
-    <Suspense fallback={<PlaceholderCube position={position} />}>
-      <Model position={position} />
+    <Suspense fallback={<PlaceholderCube />}>
+      <Model walking={walking} />
     </Suspense>
   )
 }
