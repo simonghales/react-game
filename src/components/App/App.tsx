@@ -15,9 +15,9 @@ const App: React.FC = () => {
             <ControllerScreen />
           </Route>
           <Route path="/">
-            {/* <GameState> */}
-            <GameScreen />
-            {/* </GameState> */}
+            <GameState>
+              <GameScreen />
+            </GameState>
           </Route>
         </Switch>
       </Router>

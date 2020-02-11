@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { a, useSpring } from 'react-spring/three'
 import GamePlayer from '../GamePlayer/GamePlayer'
-import { useGetPositionSteps, usePlayerPosition, usePlayers } from '../../hooks/player'
+import { useGetPositionSteps, usePlayerPosition, usePlayers, usePlayersArray } from '../../hooks/player'
 import Character from '../Character/Character'
 import { GamePlayerMdl } from '../../data/game'
 import { V3 } from '../../utils/types'
@@ -66,7 +66,7 @@ const Player: React.FC<Props> = ({ player }) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     const currentPosition: V3 = spring.position.source.map(item => item.value)
-    const steps = getSteps(currentPosition, position)
+    const steps = getSteps(currentPosition, position, player)
     setDirection(steps[0].direction)
     const to = steps.map((step, index) => {
       const isFinal = index === steps.length - 1
@@ -98,12 +98,10 @@ const Player: React.FC<Props> = ({ player }) => {
 }
 
 const GamePlayers: React.FC = () => {
-  const players = usePlayers()
-  const playersArray = Object.entries(players)
-  console.log('playersArray', playersArray)
+  const players = usePlayersArray()
   return (
     <>
-      {playersArray.map(([key, player]) => {
+      {players.map(([key, player]) => {
         // return <GamePlayer player={player} key={key} />
         return <Player player={player} key={key} />
       })}

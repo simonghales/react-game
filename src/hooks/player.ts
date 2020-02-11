@@ -1,6 +1,6 @@
 import { V3 } from '../utils/types'
 import { GAME_PLAYERS, GAME_TILES, GamePlayerMdl, GamePlayersMdl, GameTileMdl, GameTilesMdl } from '../data/game'
-import { useGameState } from '../components/GameState/GameState'
+import { getTileFromTiles, useGameState } from '../components/GameState/GameState'
 import { getPlayerFromPlayers } from '../data/player'
 
 export const usePlayers = (): GamePlayersMdl => {
@@ -8,9 +8,20 @@ export const usePlayers = (): GamePlayersMdl => {
   return state.players
 }
 
+export const usePlayersArray = (): [string, GamePlayerMdl][] => {
+  const players = usePlayers()
+  const playersArray = Object.entries(players)
+  return playersArray
+}
+
 export const usePlayer = (playerKey: string): GamePlayerMdl => {
   const players = usePlayers()
   return getPlayerFromPlayers(playerKey, players)
+}
+
+export const useUpdatePlayer = () => {
+  const { updatePlayer } = useGameState()
+  return updatePlayer
 }
 
 export const sortPlayersByOrder = (playerA: GamePlayerMdl, playerB: GamePlayerMdl) => {
@@ -83,27 +94,72 @@ export const getDirection = (currentPosition: V3, newPosition: V3, currentDirect
   return currentDirection
 }
 
-export const useGetPositionSteps = () => {
-  const getSteps = (currentPosition: V3, newPosition: V3) => {
-    const currentDirection = 'north' // todo
-    if (currentPosition[0] !== newPosition[0] && currentPosition[2] !== newPosition[2]) {
-      const firstPosition = [newPosition[0], currentPosition[1], currentPosition[2]]
-      const firstDirection = getDirection(currentPosition, firstPosition, currentDirection) // todo
-      const finalDirection = getDirection(firstPosition, newPosition, firstDirection) // todo
-      console.log('firstDirection', firstDirection)
-      return [
-        {
-          position: firstPosition,
-          direction: firstDirection
-        },
-        {
-          position: newPosition,
-          direction: finalDirection
-        }
-      ]
+export const getPositionSteps = (currentPosition: V3, newPosition: V3, player: GamePlayerMdl, tiles: GameTilesMdl) => {
+  const currentDirection = 'north' // todo
+  if (player.positionPath.length === 0) {
+    const finalDirection = getDirection(currentPosition, newPosition, currentDirection)
+    return [
+      {
+        direction: finalDirection,
+        position: newPosition
+      }
+    ]
+  }
+
+  const steps: { direction: string; position: V3 }[] = []
+
+  player.positionPath.forEach(tileKey => {
+    const tile = getTileFromTiles(tileKey, tiles)
+    const tilePosition = getTilePositionV3(tile)
+    if (steps.length === 0) {
+      const direction = getDirection(currentPosition, tilePosition, currentDirection)
+      steps.push({
+        position: tilePosition,
+        direction
+      })
+    } else {
+      const previousStep = steps[steps.length - 1]
+      const direction = getDirection(previousStep.position, tilePosition, previousStep.direction)
+      const step = {
+        position: tilePosition,
+        direction
+      }
+      if (direction === previousStep.direction) {
+        steps[steps.length - 1] = step
+      } else {
+        steps.push(step)
+      }
     }
-    const finalDirection = getDirection(currentPosition, newPosition, currentDirection) // todo
-    return [{ position: newPosition, direction: finalDirection }]
+  })
+
+  return steps
+
+  // console.log('steps', steps)
+  //
+  // if (currentPosition[0] !== newPosition[0] && currentPosition[2] !== newPosition[2]) {
+  //   const firstPosition = [newPosition[0], currentPosition[1], currentPosition[2]]
+  //   const firstDirection = getDirection(currentPosition, firstPosition, currentDirection) // todo
+  //   const finalDirection = getDirection(firstPosition, newPosition, firstDirection) // todo
+  //   console.log('firstDirection', firstDirection)
+  //   return [
+  //     {
+  //       position: firstPosition,
+  //       direction: firstDirection
+  //     },
+  //     {
+  //       position: newPosition,
+  //       direction: finalDirection
+  //     }
+  //   ]
+  // }
+  // const finalDirection = getDirection(currentPosition, newPosition, currentDirection) // todo
+  // return [{ position: newPosition, direction: finalDirection }]
+}
+
+export const useGetPositionSteps = () => {
+  const tiles = useTiles()
+  const getSteps = (currentPosition: V3, newPosition: V3, player: GamePlayerMdl) => {
+    return getPositionSteps(currentPosition, newPosition, player, tiles)
   }
   return [getSteps]
 }

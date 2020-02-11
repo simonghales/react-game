@@ -29,8 +29,10 @@ export interface GamePlayerMdl {
   key: string
   character: GameCharacterType
   position: string
+  positionPath: string[]
   score: number
   order: number
+  pendingMoves: number
 }
 
 export interface GamePlayersMdl {
@@ -41,6 +43,8 @@ const PLAYER_00: GamePlayerMdl = {
   key: '00',
   character: GameCharacterType.BANANA,
   position: '',
+  positionPath: [],
+  pendingMoves: 0,
   score: 0,
   order: 0
 }
@@ -49,6 +53,8 @@ const PLAYER_01: GamePlayerMdl = {
   key: '01',
   character: GameCharacterType.DONUT,
   position: '',
+  positionPath: [],
+  pendingMoves: 0,
   score: 0,
   order: 1
 }
@@ -57,6 +63,8 @@ const PLAYER_02: GamePlayerMdl = {
   key: '02',
   character: GameCharacterType.PEACH,
   position: '',
+  positionPath: [],
+  pendingMoves: 0,
   score: 0,
   order: 1
 }
