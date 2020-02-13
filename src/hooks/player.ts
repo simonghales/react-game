@@ -100,13 +100,14 @@ export const getPositionSteps = (currentPosition: V3, newPosition: V3, player: G
     const finalDirection = getDirection(currentPosition, newPosition, currentDirection)
     return [
       {
+        numberOfTiles: 1,
         direction: finalDirection,
         position: newPosition
       }
     ]
   }
 
-  const steps: { direction: string; position: V3 }[] = []
+  const steps: { direction: string; position: V3; numberOfTiles: number }[] = []
 
   player.positionPath.forEach(tileKey => {
     const tile = getTileFromTiles(tileKey, tiles)
@@ -114,6 +115,7 @@ export const getPositionSteps = (currentPosition: V3, newPosition: V3, player: G
     if (steps.length === 0) {
       const direction = getDirection(currentPosition, tilePosition, currentDirection)
       steps.push({
+        numberOfTiles: 1,
         position: tilePosition,
         direction
       })
@@ -121,11 +123,15 @@ export const getPositionSteps = (currentPosition: V3, newPosition: V3, player: G
       const previousStep = steps[steps.length - 1]
       const direction = getDirection(previousStep.position, tilePosition, previousStep.direction)
       const step = {
+        numberOfTiles: 1,
         position: tilePosition,
         direction
       }
       if (direction === previousStep.direction) {
-        steps[steps.length - 1] = step
+        steps[steps.length - 1] = {
+          ...step,
+          numberOfTiles: previousStep.numberOfTiles + 1
+        }
       } else {
         steps.push(step)
       }

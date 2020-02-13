@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { easeQuadInOut } from 'd3-ease'
 import { a, useSpring } from 'react-spring/three'
 import GamePlayer from '../GamePlayer/GamePlayer'
 import { useGetPositionSteps, usePlayerPosition, usePlayers, usePlayersArray } from '../../hooks/player'
@@ -24,6 +25,8 @@ const getRotation = (direction: string): V3 => {
   return [0, yRotation, 0]
 }
 
+const ease = easeQuadInOut
+
 const Player: React.FC<Props> = ({ player }) => {
   const playerRef = useRef()
   const [getSteps] = useGetPositionSteps()
@@ -47,7 +50,7 @@ const Player: React.FC<Props> = ({ player }) => {
 
   const [spring, set] = useSpring(() => ({
     position,
-    config: { mass: 0.1, friction: 17, tension: 50 }
+    config: { duration: 500, easing: ease }
   }))
 
   const [rotationSpring, setRotationSpring] = useSpring(() => ({
@@ -82,6 +85,9 @@ const Player: React.FC<Props> = ({ player }) => {
       const nextDirection = isFinal ? step.direction : steps[index + 1].direction
       return {
         position: step.position,
+        config: {
+          duration: step.numberOfTiles * 500
+        },
         onRest: () => {
           onRest(index === steps.length - 1, nextDirection)
         }
