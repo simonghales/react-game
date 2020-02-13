@@ -4,7 +4,7 @@ import { a, useSpring } from 'react-spring/three'
 import GamePlayer from '../GamePlayer/GamePlayer'
 import { useGetPositionSteps, usePlayerPosition, usePlayers, usePlayersArray } from '../../hooks/player'
 import Character from '../Character/Character'
-import { GamePlayerMdl } from '../../data/game'
+import { GamePlayerMdl, GameTileMdl } from '../../data/game'
 import { V3 } from '../../utils/types'
 import { radians } from '../../utils/angles'
 import { useGameState } from '../GameState/GameState'
@@ -25,17 +25,45 @@ const getRotation = (direction: string): V3 => {
   return [0, yRotation, 0]
 }
 
+const difference = 0.05
+
+const hasPassedTile = (position: V3, tile: GameTileMdl, direction: string): boolean => {
+  const [xPos, yPos, zPos] = position
+  const [tileXPos, tileZPos] = tile.position
+  if (direction === 'east') {
+    if (zPos >= tileZPos - difference) {
+      return true
+    }
+  } else if (direction === 'west') {
+    if (zPos <= tileZPos + difference) {
+      return true
+    }
+  } else if (direction === 'south') {
+    if (xPos <= tileXPos + difference) {
+      return true
+    }
+  } else if (direction === 'north') {
+    if (xPos >= tileXPos - difference) {
+      return true
+    }
+  }
+  return false
+}
+
 const ease = easeQuadInOut
 
 const Player: React.FC<Props> = ({ player }) => {
   const playerRef = useRef()
   const [getSteps] = useGetPositionSteps()
-  const { setFollowingObjectRef } = useGameState()
+  const { setFollowingObjectRef, updatePassedTiles } = useGameState()
   const position = usePlayerPosition(player.key)[0] // todo - handle array
   const [updatingPosition, setUpdatingPosition] = useState(false)
   const [previousPosition, setPreviousPosition] = useState(position)
   const [direction, setDirection] = useState('north')
   // const springRef: any = useRef()
+  const [passedTiles, setPassedTiles] = useState({})
+
+  const activePlayer = player.key === '01'
 
   const onRest = (finalAnimation: boolean, newDirection?: string) => {
     if (finalAnimation) {
@@ -58,8 +86,16 @@ const Player: React.FC<Props> = ({ player }) => {
     config: { mass: 0.2, friction: 5, tension: 20 }
   }))
 
+  const passedTilesKeys = Object.keys(passedTiles)
+
   useEffect(() => {
-    if (player.key === '00' && playerRef.current) {
+    if (activePlayer) {
+      updatePassedTiles(passedTilesKeys)
+    }
+  }, [passedTilesKeys.join(',')])
+
+  useEffect(() => {
+    if (player.key === '01' && playerRef.current) {
       setFollowingObjectRef(playerRef.current)
     }
   }, [playerRef])
@@ -75,19 +111,37 @@ const Player: React.FC<Props> = ({ player }) => {
   // }, [spring])
 
   useEffect(() => {
+    setPassedTiles({})
+
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     const currentPosition: V3 = spring.position.source.map(item => item.value)
     const steps = getSteps(currentPosition, position, player)
     setDirection(steps[0].direction)
+
     const to = steps.map((step, index) => {
       const isFinal = index === steps.length - 1
       const nextDirection = isFinal ? step.direction : steps[index + 1].direction
+
+      const onFrame = (value: any) => {
+        step.tiles.forEach(tile => {
+          if (hasPassedTile(value.position, tile, step.direction)) {
+            setPassedTiles(latestState => {
+              return {
+                ...latestState,
+                [tile.key]: tile
+              }
+            })
+          }
+        })
+      }
+
       return {
         position: step.position,
         config: {
           duration: step.numberOfTiles * 500
         },
+        onFrame,
         onRest: () => {
           onRest(index === steps.length - 1, nextDirection)
         }

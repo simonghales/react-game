@@ -16,6 +16,7 @@ import Peach from '../../components/characters/Peach/Peach'
 import GameStateDebugger from '../../components/GameStateDebugger/GameStateDebugger'
 import { radians } from '../../utils/angles'
 import CameraController from '../../components/CameraController/CameraController'
+import GameUILayer from '../../components/GameUILayer/GameUILayer'
 
 /*
 
@@ -58,6 +59,7 @@ const GameScreen: React.FC = () => {
           <CameraController />
         </GameStateContext.Provider>
       </Canvas>
+      <GameUILayer />
       <GameStateDebugger />
     </>
   )

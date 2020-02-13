@@ -2,12 +2,22 @@ import React, { useContext, useEffect, useState } from 'react'
 import { GAME_PLAYERS, GAME_TILES, GamePlayerMdl, GamePlayersMdl, GameTileMdl, GameTilesMdl } from '../../data/game'
 import { getPlayerFromPlayers } from '../../data/player'
 
+export interface IActiveRoll {
+  passedTiles: {
+    [key: string]: true
+  }
+  result: number
+  path: string[]
+}
+
 export interface IGameState {
   players: GamePlayersMdl
   updatePlayer: (player: GamePlayerMdl) => void
   rollDice: (playerKey: string, result: number) => void
   followingObjectRef: any
   setFollowingObjectRef: (ref: any) => void
+  updatePassedTiles: (keys: string[]) => void
+  activeRoll: IActiveRoll | null
 }
 
 export const GameStateContext = React.createContext<IGameState>({
@@ -18,7 +28,10 @@ export const GameStateContext = React.createContext<IGameState>({
   rollDice: () => {},
   followingObjectRef: null,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setFollowingObjectRef: () => {}
+  setFollowingObjectRef: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  updatePassedTiles: () => {},
+  activeRoll: null
 })
 
 export const useGameState = (): IGameState => {
@@ -62,6 +75,7 @@ const getPlayerRolledPositionAndPath = (player: GamePlayerMdl, rollResult: numbe
 const GameState: React.FC = ({ children }) => {
   const tiles = GAME_TILES
   const [players, setPlayers] = useState(GAME_PLAYERS)
+  const [activeRoll, setActiveRoll] = useState<IActiveRoll | null>(null)
   const [pendingRolls, setPendingRolls] = useState<
     {
       timestamp: any
@@ -71,6 +85,22 @@ const GameState: React.FC = ({ children }) => {
   >([])
 
   const [followingObjectRef, setFollowingObjectRef] = useState(null)
+
+  const updatePassedTiles = (tileKeys: string[]) => {
+    setActiveRoll(latestState => {
+      if (!latestState) return latestState
+      const passedTiles: {
+        [key: string]: true
+      } = {}
+      tileKeys.forEach(tileKey => {
+        passedTiles[tileKey] = true
+      })
+      return {
+        ...latestState,
+        passedTiles
+      }
+    })
+  }
 
   const updatePlayer = (updatedPlayer: GamePlayerMdl) => {
     setPlayers(latestPlayers => {
@@ -86,6 +116,11 @@ const GameState: React.FC = ({ children }) => {
       console.log('handle pending roll', pendingRoll)
       const player = getPlayerFromPlayers(pendingRoll.playerKey, players)
       const { position, positionPath, pendingMoves } = getPlayerRolledPositionAndPath(player, pendingRoll.result, tiles)
+      setActiveRoll({
+        result: pendingRoll.result,
+        passedTiles: {},
+        path: positionPath
+      })
       updatePlayer({
         ...player,
         position,
@@ -139,7 +174,9 @@ const GameState: React.FC = ({ children }) => {
         updatePlayer,
         rollDice,
         followingObjectRef,
-        setFollowingObjectRef
+        setFollowingObjectRef,
+        updatePassedTiles,
+        activeRoll
       }}
     >
       {children}
