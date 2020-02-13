@@ -116,11 +116,13 @@ const GameState: React.FC = ({ children }) => {
       console.log('handle pending roll', pendingRoll)
       const player = getPlayerFromPlayers(pendingRoll.playerKey, players)
       const { position, positionPath, pendingMoves } = getPlayerRolledPositionAndPath(player, pendingRoll.result, tiles)
-      setActiveRoll({
-        result: pendingRoll.result,
-        passedTiles: {},
-        path: positionPath
-      })
+      if (pendingRoll.playerKey === '01') {
+        setActiveRoll({
+          result: pendingRoll.result,
+          passedTiles: {},
+          path: positionPath
+        })
+      }
       updatePlayer({
         ...player,
         position,
