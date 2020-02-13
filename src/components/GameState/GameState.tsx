@@ -6,6 +6,8 @@ export interface IGameState {
   players: GamePlayersMdl
   updatePlayer: (player: GamePlayerMdl) => void
   rollDice: (playerKey: string, result: number) => void
+  followingObjectRef: any
+  setFollowingObjectRef: (ref: any) => void
 }
 
 export const GameStateContext = React.createContext<IGameState>({
@@ -13,7 +15,10 @@ export const GameStateContext = React.createContext<IGameState>({
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   updatePlayer: () => {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  rollDice: () => {}
+  rollDice: () => {},
+  followingObjectRef: null,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setFollowingObjectRef: () => {}
 })
 
 export const useGameState = (): IGameState => {
@@ -64,6 +69,8 @@ const GameState: React.FC = ({ children }) => {
       result: number
     }[]
   >([])
+
+  const [followingObjectRef, setFollowingObjectRef] = useState(null)
 
   const updatePlayer = (updatedPlayer: GamePlayerMdl) => {
     setPlayers(latestPlayers => {
@@ -130,7 +137,9 @@ const GameState: React.FC = ({ children }) => {
       value={{
         players,
         updatePlayer,
-        rollDice
+        rollDice,
+        followingObjectRef,
+        setFollowingObjectRef
       }}
     >
       {children}

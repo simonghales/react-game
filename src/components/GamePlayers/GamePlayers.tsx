@@ -6,6 +6,7 @@ import Character from '../Character/Character'
 import { GamePlayerMdl } from '../../data/game'
 import { V3 } from '../../utils/types'
 import { radians } from '../../utils/angles'
+import { useGameState } from '../GameState/GameState'
 
 interface Props {
   player: GamePlayerMdl
@@ -24,7 +25,9 @@ const getRotation = (direction: string): V3 => {
 }
 
 const Player: React.FC<Props> = ({ player }) => {
+  const playerRef = useRef()
   const [getSteps] = useGetPositionSteps()
+  const { setFollowingObjectRef } = useGameState()
   const position = usePlayerPosition(player.key)[0] // todo - handle array
   const [updatingPosition, setUpdatingPosition] = useState(false)
   const [previousPosition, setPreviousPosition] = useState(position)
@@ -44,13 +47,19 @@ const Player: React.FC<Props> = ({ player }) => {
 
   const [spring, set] = useSpring(() => ({
     position,
-    config: { mass: 0.2, friction: 5, tension: 20 }
+    config: { mass: 0.1, friction: 17, tension: 50 }
   }))
 
   const [rotationSpring, setRotationSpring] = useSpring(() => ({
     rotation: [0, 0, 0],
     config: { mass: 0.2, friction: 5, tension: 20 }
   }))
+
+  useEffect(() => {
+    if (player.key === '00' && playerRef.current) {
+      setFollowingObjectRef(playerRef.current)
+    }
+  }, [playerRef])
 
   useEffect(() => {
     setRotationSpring({
@@ -85,13 +94,14 @@ const Player: React.FC<Props> = ({ player }) => {
     if (position[0] !== previousPosition[0] || position[1] !== previousPosition[1] || position[2] !== previousPosition[2]) {
       setUpdatingPosition(true)
     }
+    console.log('playerRef', playerRef)
   }, [...position])
 
   const { position: springPosition } = spring
   const { rotation: springRotation } = rotationSpring
 
   return (
-    <a.group position={springPosition} rotation={springRotation}>
+    <a.group position={springPosition} rotation={springRotation} ref={playerRef}>
       <Character walking={updatingPosition} type={player.character} />
     </a.group>
   )
