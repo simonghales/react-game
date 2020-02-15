@@ -1,3 +1,5 @@
+import {GameCharacterType} from "../state/gameState";
+
 export enum GameTileType {
   PLAIN = 'PLAIN',
   BONUS1 = 'BONUS1',
@@ -16,13 +18,6 @@ export interface GameTileMdl {
 
 export interface GameTilesMdl {
   [key: string]: GameTileMdl
-}
-
-export enum GameCharacterType {
-  BANANA = 'BANANA',
-  CHERRY = 'CHERRY',
-  PEACH = 'PEACH',
-  DONUT = 'DONUT'
 }
 
 export interface GamePlayerMdl {

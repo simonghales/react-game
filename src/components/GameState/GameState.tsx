@@ -18,6 +18,11 @@ export interface IGameState {
   setFollowingObjectRef: (ref: any) => void
   updatePassedTiles: (keys: string[]) => void
   activeRoll: IActiveRoll | null
+  setPlayerRef: (key: string, ref: any) => void
+  activePlayer: string | null
+  playersRefs: {
+    [key: string]: any
+  }
 }
 
 export const GameStateContext = React.createContext<IGameState>({
@@ -31,7 +36,11 @@ export const GameStateContext = React.createContext<IGameState>({
   setFollowingObjectRef: () => {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   updatePassedTiles: () => {},
-  activeRoll: null
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setPlayerRef: () => {},
+  activeRoll: null,
+  activePlayer: null,
+  playersRefs: {}
 })
 
 export const useGameState = (): IGameState => {
@@ -76,6 +85,7 @@ const GameState: React.FC = ({ children }) => {
   const tiles = GAME_TILES
   const [players, setPlayers] = useState(GAME_PLAYERS)
   const [activeRoll, setActiveRoll] = useState<IActiveRoll | null>(null)
+  const [activePlayer, setActivePlayer] = useState<string | null>(null)
   const [pendingRolls, setPendingRolls] = useState<
     {
       timestamp: any
@@ -84,7 +94,18 @@ const GameState: React.FC = ({ children }) => {
     }[]
   >([])
 
+  const [playersRefs, setPlayersRefs] = useState({})
+
   const [followingObjectRef, setFollowingObjectRef] = useState(null)
+
+  const setPlayerRef = (key: string, ref: any) => {
+    setPlayersRefs(prevState => {
+      return {
+        ...prevState,
+        [key]: ref
+      }
+    })
+  }
 
   const updatePassedTiles = (tileKeys: string[]) => {
     setActiveRoll(latestState => {
@@ -140,6 +161,7 @@ const GameState: React.FC = ({ children }) => {
   ])
 
   const rollDice = (playerKey: string, result: number) => {
+    setActivePlayer(playerKey)
     setPendingRolls(currentPendingRolls => {
       return currentPendingRolls.concat([
         {
@@ -178,7 +200,10 @@ const GameState: React.FC = ({ children }) => {
         followingObjectRef,
         setFollowingObjectRef,
         updatePassedTiles,
-        activeRoll
+        activeRoll,
+        setPlayerRef,
+        activePlayer,
+        playersRefs
       }}
     >
       {children}

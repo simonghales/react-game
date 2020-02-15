@@ -3,10 +3,10 @@ import { useSpring } from 'react-spring'
 import Banana from '../characters/Banana/Banana'
 import PlaceholderCube from '../PlaceholderCube/PlaceholderCube'
 import { V3 } from '../../utils/types'
-import { GameCharacterType } from '../../data/game'
 import Donut from '../characters/Donut/Donut'
 import Cherry from '../characters/Cherry/Cherry'
 import Peach from '../characters/Peach/Peach'
+import {GameCharacterType} from "../../state/gameState";
 
 const models = {
   [GameCharacterType.BANANA]: Banana,

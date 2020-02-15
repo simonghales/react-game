@@ -17,6 +17,7 @@ import GameStateDebugger from '../../components/GameStateDebugger/GameStateDebug
 import { radians } from '../../utils/angles'
 import CameraController from '../../components/CameraController/CameraController'
 import GameUILayer from '../../components/GameUILayer/GameUILayer'
+import { DUMMY_GAME } from '../../state/dummy'
 
 /*
 
@@ -27,6 +28,8 @@ _y: -0.7180890459093253
 _z: -1.5909990765304907
 
  */
+
+console.log('DUMMY_GAME', DUMMY_GAME)
 
 const centerV3 = new THREE.Vector3(0, 0, 0)
 

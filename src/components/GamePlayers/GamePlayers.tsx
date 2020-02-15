@@ -55,7 +55,7 @@ const ease = easeQuadInOut
 const Player: React.FC<Props> = ({ player }) => {
   const playerRef = useRef()
   const [getSteps] = useGetPositionSteps()
-  const { setFollowingObjectRef, updatePassedTiles } = useGameState()
+  const { setPlayerRef, setFollowingObjectRef, updatePassedTiles } = useGameState()
   const position = usePlayerPosition(player.key)[0] // todo - handle array
   const [updatingPosition, setUpdatingPosition] = useState(false)
   const [previousPosition, setPreviousPosition] = useState(position)
@@ -97,6 +97,12 @@ const Player: React.FC<Props> = ({ player }) => {
   useEffect(() => {
     if (player.key === '01' && playerRef.current) {
       setFollowingObjectRef(playerRef.current)
+    }
+    if (playerRef.current) {
+      setPlayerRef(player.key, playerRef.current)
+    }
+    return () => {
+      setPlayerRef(player.key, null)
     }
   }, [playerRef])
 
