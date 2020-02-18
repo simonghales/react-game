@@ -7,6 +7,24 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useLoader, useFrame } from 'react-three-fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
+const peachMaterial = new THREE.MeshStandardMaterial({
+  color: 0xffbb8b
+})
+
+peachMaterial.skinning = true
+
+const redMaterial = new THREE.MeshStandardMaterial({
+  color: 0xe95664
+})
+
+redMaterial.skinning = true
+
+const greenMaterial = new THREE.MeshStandardMaterial({
+  color: 0x21b365
+})
+
+greenMaterial.skinning = true
+
 export default function Peach({ walking, ...props }) {
   const group = useRef()
   const { nodes, materials, animations } = useLoader(GLTFLoader, '/Peach.glb')
@@ -45,7 +63,7 @@ export default function Peach({ walking, ...props }) {
             <skinnedMesh
               receiveShadow
               castShadow
-              material={materials.Beige}
+              material={peachMaterial}
               geometry={nodes['Icosphere.000_0'].geometry}
               skeleton={nodes['Icosphere.000_0'].skeleton}
             />
@@ -73,14 +91,14 @@ export default function Peach({ walking, ...props }) {
             <skinnedMesh
               receiveShadow
               castShadow
-              material={materials.Green}
+              material={greenMaterial}
               geometry={nodes['Icosphere.000_4'].geometry}
               skeleton={nodes['Icosphere.000_4'].skeleton}
             />
             <skinnedMesh
               receiveShadow
               castShadow
-              material={materials.Red}
+              material={redMaterial}
               geometry={nodes['Icosphere.000_5'].geometry}
               skeleton={nodes['Icosphere.000_5'].skeleton}
             />

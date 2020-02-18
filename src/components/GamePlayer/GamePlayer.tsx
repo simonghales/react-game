@@ -1,23 +1,37 @@
-// this file is causing bugs for some reason...
-
-import React from 'react'
-import { useSpring } from 'react-spring'
-import { GamePlayerMdl } from '../../data/game'
+import React, { useEffect, useRef } from 'react'
+import { a, useSpring } from 'react-spring/three'
+import { IGamePlayer } from '../../state/gameState'
 import Character from '../Character/Character'
-import { usePlayerPosition } from '../../hooks/player'
+import { usePlayerPosition, usePlayerRotation } from '../../state/hooks'
+import { useMiscStore } from '../../state/store'
+import ChatBubble from '../ChatBubble/ChatBubble'
 
 interface Props {
-  player: GamePlayerMdl
+  player: IGamePlayer
 }
 
 const GamePlayer: React.FC<Props> = ({ player }) => {
-  // const position = usePlayerPosition(player.key)
-  const position = [0, 0, 0]
-  const props = useSpring({ opacity: 1, from: { opacity: 0 } })
-  // console.log('position', position)
-  // console.log('props', props)
-  return null
-  // return <Character type={player.character} position={position} />
+  const playerRef = useRef()
+  const position = usePlayerPosition(player.key)
+  const rotation = usePlayerRotation(player.key)
+  const setPlayerRef = useMiscStore(state => state.setPlayerRef)
+
+  useEffect(() => {
+    setPlayerRef(player.key, playerRef)
+    return () => {
+      setPlayerRef(player.key, null)
+    }
+  }, [playerRef])
+
+  useEffect(() => {
+    // position updated - animate towards it?
+  }, [...position])
+  return (
+    <a.group ref={playerRef} position={position} rotation={rotation}>
+      <Character type={player.characterType} walking={false} />
+      <ChatBubble characterType={player.characterType} />
+    </a.group>
+  )
 }
 
 export default GamePlayer

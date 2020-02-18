@@ -1,4 +1,15 @@
-import { GameRoundState, GameState, GameTileType, IGameData, IGameMiniGames, IGameRounds, IGameTile, IGameTiles } from './gameState'
+import {
+  GameCharacterType,
+  GameRoundState,
+  GameState,
+  GameTileType,
+  IGameData,
+  IGameMiniGames,
+  IGamePlayers,
+  IGameRounds,
+  IGameTile,
+  IGameTiles
+} from './gameState'
 
 const getTotalTiles = (width: number, height: number): number => {
   return (width + height) * 2 - 4
@@ -295,9 +306,60 @@ const DUMMY_ROUNDS: IGameRounds = {
   }
 }
 
+const DUMMY_PLAYERS: IGamePlayers = {
+  '00': {
+    key: '00',
+    name: 'Simon',
+    score: 0,
+    order: 0,
+    boardPosition: '',
+    characterType: GameCharacterType.DONUT,
+    timestamps: {
+      joined: 0,
+      lastOnline: 0
+    }
+  },
+  '01': {
+    key: '01',
+    name: 'Chiao',
+    score: 0,
+    order: 1,
+    boardPosition: '',
+    characterType: GameCharacterType.BANANA,
+    timestamps: {
+      joined: 0,
+      lastOnline: 0
+    }
+  },
+  '02': {
+    key: '02',
+    name: 'P3',
+    score: 0,
+    order: 1,
+    boardPosition: '',
+    characterType: GameCharacterType.PEACH,
+    timestamps: {
+      joined: 0,
+      lastOnline: 0
+    }
+  }
+  // '03': {
+  //   key: '03',
+  //   name: 'P4',
+  //   score: 0,
+  //   order: 1,
+  //   boardPosition: '',
+  //   characterType: GameCharacterType.PEACH,
+  //   timestamps: {
+  //     joined: 0,
+  //     lastOnline: 0
+  //   }
+  // }
+}
+
 export const DUMMY_GAME: IGameData = {
-  players: {},
-  tiles: {},
+  players: DUMMY_PLAYERS,
+  tiles: DUMMY_TILES,
   rounds: DUMMY_ROUNDS,
   currentRound: '',
   miniGames: DUMMY_MINIGAMES,

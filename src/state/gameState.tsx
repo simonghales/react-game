@@ -12,6 +12,10 @@ export interface IGamePlayer {
   boardPosition: string
   order: number
   characterType: GameCharacterType
+  timestamps: {
+    joined: number
+    lastOnline: number
+  }
 }
 
 export interface IGamePlayers {

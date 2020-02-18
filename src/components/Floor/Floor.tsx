@@ -11,7 +11,7 @@ const Floor: React.FC<Props> = ({ position = [0, 0, 0], ...props }) => {
   return (
     <mesh {...props} position={position} rotation={rotation} receiveShadow>
       <planeBufferGeometry attach="geometry" args={[1000, 1000]} />
-      <meshPhongMaterial attach="material" color="#E8BD6A" side={THREE.DoubleSide} />
+      <meshPhongMaterial attach="material" color="#b89ab0" side={THREE.DoubleSide} />
     </mesh>
   )
 }
