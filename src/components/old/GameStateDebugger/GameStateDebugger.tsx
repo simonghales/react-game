@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { usePlayersArray } from '../../hooks/player'
+import { usePlayersArray } from '../../../hooks/player'
 import PlayerDebugger from './components/PlayerDebugger/PlayerDebugger'
 
 const Container = styled.div`

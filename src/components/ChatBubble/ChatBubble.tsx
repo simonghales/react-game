@@ -11,7 +11,7 @@ const CHARACTER_OFFSETS: {
 } = {
   [GameCharacterType.PEACH]: defaultOffset - 0.1,
   [GameCharacterType.BANANA]: defaultOffset + 0.07,
-  [GameCharacterType.DONUT]: defaultOffset + 0.02
+  [GameCharacterType.DONUT]: defaultOffset + 0.03
 }
 
 const getYOffset = (characterType: GameCharacterType): number => {

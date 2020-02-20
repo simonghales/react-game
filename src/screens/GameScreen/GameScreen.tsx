@@ -13,10 +13,10 @@ import Pug from '../../components/characters/Pug'
 import GamePlayers from '../../components/old/GamePlayers/GamePlayers'
 import GameState, { useGameState, GameStateContext } from '../../components/GameState/GameState'
 import Peach from '../../components/characters/Peach/Peach'
-import GameStateDebugger from '../../components/GameStateDebugger/GameStateDebugger'
+import GameStateDebugger from '../../components/old/GameStateDebugger/GameStateDebugger'
 import { radians } from '../../utils/angles'
 import CameraController from '../../components/CameraController/CameraController'
-import GameUILayer from '../../components/GameUILayer/GameUILayer'
+import GameUILayer from '../../components/old/GameUILayer/GameUILayer'
 import { DUMMY_GAME } from '../../state/dummy'
 
 /*

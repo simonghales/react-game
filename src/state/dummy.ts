@@ -363,5 +363,5 @@ export const DUMMY_GAME: IGameData = {
   rounds: DUMMY_ROUNDS,
   currentRound: '',
   miniGames: DUMMY_MINIGAMES,
-  state: GameState.HUB
+  state: GameState.STARTING
 }

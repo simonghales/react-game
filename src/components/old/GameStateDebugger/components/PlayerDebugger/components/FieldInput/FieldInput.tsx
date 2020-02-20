@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTiles } from '../../../../../../hooks/player'
+import { useTiles } from '../../../../../../../hooks/player'
 
 interface Props {
   fieldKey: string

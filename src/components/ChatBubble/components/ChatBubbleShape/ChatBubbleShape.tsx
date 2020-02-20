@@ -19,7 +19,7 @@ const ChatBubbleShape: React.FC = React.memo(() => {
   console.log('svg', svg, preppedShape)
 
   return (
-    <a.mesh scale={[scale, scale, scale]} position={[0.1, 0.18, -0.25]} rotation={[0, radians(90), radians(180)]}>
+    <a.mesh scale={[scale, scale, scale]} position={[-0.1, 0.18, 0.27]} rotation={[0, radians(-90), radians(180)]}>
       <a.meshPhongMaterial attach="material" color="#FFFFFF" opacity={1} depthWrite={false} transparent />
       <shapeBufferGeometry attach="geometry" args={[preppedShape]} />
     </a.mesh>

@@ -4,48 +4,15 @@ import * as THREE from 'three'
 import React, { useEffect, useRef, useState } from 'react'
 import { useLoader, useFrame } from 'react-three-fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-
-const donutMaterial = new THREE.MeshStandardMaterial({
-  color: 0xe7bd81
-})
-
-donutMaterial.skinning = true
-
-const frostingMaterial = new THREE.MeshStandardMaterial({
-  color: 0xe74e9b
-})
-
-frostingMaterial.skinning = true
-
-const yellowMaterial = new THREE.MeshStandardMaterial({
-  color: 0xe7b152
-})
-
-yellowMaterial.skinning = true
-
-const greenMaterial = new THREE.MeshStandardMaterial({
-  color: 0x519b85
-})
-
-greenMaterial.skinning = true
-
-const blueMaterial = new THREE.MeshStandardMaterial({
-  color: 0x7381e7
-})
-
-blueMaterial.skinning = true
-
-const whiteMaterial = new THREE.MeshStandardMaterial({
-  color: 0xffffff
-})
-
-whiteMaterial.skinning = true
-
-const blackMaterial = new THREE.MeshStandardMaterial({
-  color: 0x000000
-})
-
-blackMaterial.skinning = true
+import {
+  blackMaterial,
+  blueMaterial,
+  donutGreenMaterial,
+  donutMaterial,
+  donutYellowMaterial,
+  frostingMaterial,
+  whiteMaterial
+} from '../../../threejs/materials'
 
 console.log('donutMaterial', donutMaterial)
 
@@ -103,7 +70,7 @@ export default function Donut({ walking, ...props }) {
             <skinnedMesh
               receiveShadow
               castShadow
-              material={yellowMaterial}
+              material={donutYellowMaterial}
               geometry={nodes.Torus_2.geometry}
               skeleton={nodes.Torus_2.skeleton}
               name="Torus_2"
@@ -111,7 +78,7 @@ export default function Donut({ walking, ...props }) {
             <skinnedMesh
               receiveShadow
               castShadow
-              material={greenMaterial}
+              material={donutGreenMaterial}
               geometry={nodes.Torus_3.geometry}
               skeleton={nodes.Torus_3.skeleton}
               name="Torus_3"

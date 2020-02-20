@@ -4,12 +4,7 @@ import * as THREE from 'three'
 import React, { useEffect, useRef, useState } from 'react'
 import { useLoader, useFrame } from 'react-three-fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-
-const yellowMaterial = new THREE.MeshStandardMaterial({
-  color: 0xffbe3f
-})
-
-yellowMaterial.skinning = true
+import { blackMaterial, brownMaterial, whiteMaterial, yellowMaterial } from '../../../threejs/materials'
 
 export default function Banana({ walking, ...props }) {
   const group = useRef()
@@ -58,7 +53,7 @@ export default function Banana({ walking, ...props }) {
             <skinnedMesh
               receiveShadow
               castShadow
-              material={materials.Brown}
+              material={brownMaterial}
               geometry={nodes['Cylinder.012_1'].geometry}
               skeleton={nodes['Cylinder.012_1'].skeleton}
               name="Cylinder.012_1"
@@ -66,7 +61,7 @@ export default function Banana({ walking, ...props }) {
             <skinnedMesh
               receiveShadow
               castShadow
-              material={materials.Black}
+              material={blackMaterial}
               geometry={nodes['Cylinder.012_2'].geometry}
               skeleton={nodes['Cylinder.012_2'].skeleton}
               name="Cylinder.012_2"
@@ -74,7 +69,7 @@ export default function Banana({ walking, ...props }) {
             <skinnedMesh
               receiveShadow
               castShadow
-              material={materials.White}
+              material={whiteMaterial}
               geometry={nodes['Cylinder.012_3'].geometry}
               skeleton={nodes['Cylinder.012_3'].skeleton}
               name="Cylinder.012_3"
