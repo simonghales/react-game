@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import GameStateDebugger from './components/GameStateDebugger/GameStateDebugger'
+import PlayDebugger from './components/PlayDebugger/PlayDebugger'
 
 const Container = styled.div`
   position: fixed;
@@ -15,6 +16,7 @@ const GameDebugger: React.FC = () => {
       {isOpen ? (
         <div>
           <GameStateDebugger />
+          <PlayDebugger />
         </div>
       ) : (
         <div onClick={() => setIsOpen(true)}>debug</div>

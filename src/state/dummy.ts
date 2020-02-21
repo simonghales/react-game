@@ -30,6 +30,7 @@ const generateTiles = (width: number, height: number): IGameTiles => {
 
     const tile: IGameTile = {
       key: index.toString(),
+      starting: index === 0,
       position: [xPos, yPos],
       tileType: GameTileType.DEFAULT,
       connectedTiles: [nextTile.toString()]
@@ -94,108 +95,126 @@ const generateTiles = (width: number, height: number): IGameTiles => {
 const DUMMY_TILES: IGameTiles = {
   '0': {
     key: '0',
+    starting: true,
     position: [0, 0],
     tileType: GameTileType.BONUS2,
     connectedTiles: ['1']
   },
   '1': {
     key: '1',
+    starting: false,
     position: [1, 0],
     tileType: GameTileType.BONUS2,
     connectedTiles: ['2']
   },
   '2': {
     key: '2',
+    starting: false,
     position: [2, 0],
     tileType: GameTileType.BONUS2,
     connectedTiles: ['3']
   },
   '3': {
     key: '3',
+    starting: false,
     position: [3, 0],
     tileType: GameTileType.BONUS1,
     connectedTiles: ['4']
   },
   '4': {
     key: '4',
+    starting: false,
     position: [4, 0],
     tileType: GameTileType.DEFAULT,
     connectedTiles: ['5']
   },
   '5': {
     key: '5',
+    starting: false,
     position: [5, 0],
     tileType: GameTileType.DEFAULT,
     connectedTiles: ['6']
   },
   '6': {
     key: '6',
+    starting: false,
     position: [6, 0],
     tileType: GameTileType.BONUS2,
     connectedTiles: ['7']
   },
   '7': {
     key: '7',
+    starting: false,
     position: [6, 1],
     tileType: GameTileType.BONUS2,
     connectedTiles: ['8']
   },
   '8': {
     key: '8',
+    starting: false,
     position: [6, 2],
     tileType: GameTileType.BONUS1,
     connectedTiles: ['9']
   },
   '9': {
     key: '9',
+    starting: false,
     position: [6, 3],
     tileType: GameTileType.BONUS1,
     connectedTiles: ['10']
   },
   '10': {
     key: '10',
+    starting: false,
     position: [5, 3],
     tileType: GameTileType.DEFAULT,
     connectedTiles: ['11']
   },
   '11': {
     key: '11',
+    starting: false,
     position: [4, 3],
     tileType: GameTileType.NEGATIVE1,
     connectedTiles: ['12']
   },
   '12': {
     key: '12',
+    starting: false,
     position: [3, 3],
     tileType: GameTileType.BONUS2,
     connectedTiles: ['13']
   },
   '13': {
     key: '13',
+    starting: false,
     position: [2, 3],
     tileType: GameTileType.BONUS1,
     connectedTiles: ['14']
   },
   '14': {
     key: '14',
+    starting: false,
     position: [1, 3],
     tileType: GameTileType.BONUS2,
     connectedTiles: ['15']
   },
   '15': {
     key: '15',
+    starting: false,
     position: [0, 3],
     tileType: GameTileType.BONUS2,
     connectedTiles: ['16']
   },
   '16': {
     key: '16',
+    starting: false,
     position: [0, 2],
     tileType: GameTileType.STAR,
     connectedTiles: ['17']
   },
   '17': {
     key: '17',
+    starting: false,
     position: [0, 1],
     tileType: GameTileType.NEGATIVE1,
     connectedTiles: ['0']
@@ -313,6 +332,7 @@ const DUMMY_PLAYERS: IGamePlayers = {
     score: 0,
     order: 0,
     boardPosition: '',
+    boardPositionPath: [],
     characterType: GameCharacterType.DONUT,
     timestamps: {
       joined: 0,
@@ -325,6 +345,7 @@ const DUMMY_PLAYERS: IGamePlayers = {
     score: 0,
     order: 1,
     boardPosition: '',
+    boardPositionPath: [],
     characterType: GameCharacterType.BANANA,
     timestamps: {
       joined: 0,
@@ -337,6 +358,7 @@ const DUMMY_PLAYERS: IGamePlayers = {
     score: 0,
     order: 1,
     boardPosition: '',
+    boardPositionPath: [],
     characterType: GameCharacterType.PEACH,
     timestamps: {
       joined: 0,
@@ -363,5 +385,5 @@ export const DUMMY_GAME: IGameData = {
   rounds: DUMMY_ROUNDS,
   currentRound: '',
   miniGames: DUMMY_MINIGAMES,
-  state: GameState.STARTING
+  state: GameState.PLAYING
 }

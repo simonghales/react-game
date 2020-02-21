@@ -16,7 +16,7 @@ const ChatBubbleShape: React.FC = React.memo(() => {
     return null
   }
 
-  console.log('svg', svg, preppedShape)
+  // console.log('svg', svg, preppedShape)
 
   return (
     <a.mesh scale={[scale, scale, scale]} position={[-0.1, 0.18, 0.27]} rotation={[0, radians(-90), radians(180)]}>

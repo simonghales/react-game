@@ -10,6 +10,7 @@ export interface IGamePlayer {
   name: string
   score: number
   boardPosition: string
+  boardPositionPath: string[]
   order: number
   characterType: GameCharacterType
   timestamps: {
@@ -32,6 +33,7 @@ export enum GameTileType {
 
 export interface IGameTile {
   key: string
+  starting: boolean
   position: [number, number]
   tileType: GameTileType
   connectedTiles: string[]

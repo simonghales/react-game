@@ -108,7 +108,7 @@ export const getPositionSteps = (currentPosition: V3, newPosition: V3, player: G
     ]
   }
 
-  const steps: { direction: string; position: V3; numberOfTiles: number, tiles: GameTileMdl[] }[] = []
+  const steps: { direction: string; position: V3; numberOfTiles: number; tiles: GameTileMdl[] }[] = []
 
   player.positionPath.forEach(tileKey => {
     const tile = getTileFromTiles(tileKey, tiles)
