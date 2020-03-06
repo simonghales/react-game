@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useSpring, animated } from 'react-spring'
-import { IActiveRoll, useGameState } from '../../../../GameState/GameState'
+import { IActiveRoll, useGameState } from '../../../GameState/GameState'
 
 const StepsContainer = styled.div`
   position: absolute;

@@ -1,6 +1,6 @@
 import { V3 } from '../utils/types'
 import { GAME_PLAYERS, GAME_TILES, GamePlayerMdl, GamePlayersMdl, GameTileMdl, GameTilesMdl } from '../data/game'
-import { getTileFromTiles, useGameState } from '../components/GameState/GameState'
+import { getTileFromTiles, useGameState } from '../components/old/GameState/GameState'
 import { getPlayerFromPlayers } from '../data/player'
 
 export const usePlayers = (): GamePlayersMdl => {
@@ -24,7 +24,7 @@ export const useUpdatePlayer = () => {
   return updatePlayer
 }
 
-export const sortPlayersByOrder = (playerA: GamePlayerMdl, playerB: GamePlayerMdl) => {
+export const OLDsortPlayersByOrder = (playerA: GamePlayerMdl, playerB: GamePlayerMdl) => {
   return playerA.order - playerB.order
 }
 
@@ -33,7 +33,7 @@ export const getWaitingPlayers = (players: GamePlayersMdl): GamePlayerMdl[] => {
     .filter(player => {
       return !player.position
     })
-    .sort(sortPlayersByOrder)
+    .sort(OLDsortPlayersByOrder)
 }
 
 export const getWaitingPosition = (player: GamePlayerMdl, players: GamePlayersMdl): V3 => {

@@ -328,8 +328,9 @@ const DUMMY_ROUNDS: IGameRounds = {
 const DUMMY_PLAYERS: IGamePlayers = {
   '00': {
     key: '00',
-    name: 'Simon',
-    score: 0,
+    name: 'Chiao',
+    coins: 10,
+    score: 3,
     order: 0,
     boardPosition: '',
     boardPositionPath: [],
@@ -341,7 +342,8 @@ const DUMMY_PLAYERS: IGamePlayers = {
   },
   '01': {
     key: '01',
-    name: 'Chiao',
+    name: 'Simon',
+    coins: 30,
     score: 0,
     order: 1,
     boardPosition: '',
@@ -355,7 +357,8 @@ const DUMMY_PLAYERS: IGamePlayers = {
   '02': {
     key: '02',
     name: 'P3',
-    score: 0,
+    coins: 0,
+    score: 2,
     order: 1,
     boardPosition: '',
     boardPositionPath: [],
@@ -383,7 +386,7 @@ export const DUMMY_GAME: IGameData = {
   players: DUMMY_PLAYERS,
   tiles: DUMMY_TILES,
   rounds: DUMMY_ROUNDS,
-  currentRound: '',
+  currentRound: DUMMY_ROUNDS['00'].key,
   miniGames: DUMMY_MINIGAMES,
   state: GameState.PLAYING
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import StepsCount from './components/StepsCount/StepsCount'
-import { useGameState } from '../../GameState/GameState'
+import { useGameState } from '../GameState/GameState'
 
 const Container = styled.div`
   position: fixed;

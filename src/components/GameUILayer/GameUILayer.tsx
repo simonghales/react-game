@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import HubUI from './components/HubUI/HubUI'
 import { useGameState } from '../../state/hooks'
 import { GameState } from '../../state/gameState'
+import PlayingUI from './components/PlayingUI/PlayingUI'
 
 const Container = styled.div`
   position: fixed;
@@ -38,6 +39,10 @@ const GameUILayer: React.FC = () => {
     case GameState.HUB:
       uiComponentKey = 'HUB'
       uiComponent = <HubUI />
+      break
+    case GameState.PLAYING:
+      uiComponentKey = 'PLAYING'
+      uiComponent = <PlayingUI />
       break
     default:
       uiComponentKey = ''

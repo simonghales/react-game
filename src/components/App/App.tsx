@@ -4,7 +4,7 @@ import { useSpring } from 'react-spring'
 import OldGameScreen from '../../screens/OldGameScreen/OldGameScreen'
 import ControllerScreen from '../../screens/ControllerScreen/ControllerScreen'
 import GameScreen from '../../screens/GameScreen/GameScreen'
-import GameState from '../GameState/GameState'
+import GameState from '../old/GameState/GameState'
 import PlayScreen from '../../screens/PlayScreen/PlayScreen'
 
 const App: React.FC = () => {

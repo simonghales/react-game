@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react'
 import { useFrame, useThree } from 'react-three-fiber'
 import { useSpring } from 'react-spring/three'
-import { useCameraPosition, useCameraRotation, useGameState } from '../../state/hooks'
-import { useMiscStore, useStore } from '../../state/store'
-import { GameState } from '../../state/gameState'
+import { useActivePlayer, useActiveTurnState, useCameraPosition, useCameraRotation, useGameState } from '../../state/hooks'
+import { useMiscStore } from '../../state/store'
+import { GameState, PlayerMoveState } from '../../state/gameState'
+import { V3 } from '../../utils/types'
 
 const useFollowRef = () => {
   const gameState = useGameState()
-  const activePlayer = useStore(state => state.activePlayer)
+  const activePlayer = useActivePlayer()
   const playerRefs = useMiscStore(state => state.playerRefs)
   if (activePlayer && gameState === GameState.PLAYING) {
     if (playerRefs[activePlayer]) {
@@ -17,10 +18,20 @@ const useFollowRef = () => {
   return null
 }
 
+const getPlayerFollowCameraOffset = (followRef: any): V3 => {
+  return [followRef.position.x - 3, followRef.position.y + 4, followRef.position.z + 3]
+}
+
+const updatePlayerFollowCamera = (followRef: any, camera: any) => {
+  const position = getPlayerFollowCameraOffset(followRef)
+  camera.position.set(position[0], position[1], position[2])
+}
+
 const CameraHandler: React.FC = () => {
   const { camera } = useThree()
   const cameraPosition = useCameraPosition()
   const cameraRotation = useCameraRotation()
+  const activeTurnState = useActiveTurnState()
   const followRef = useFollowRef()
 
   const movementOnFrame = (value: any) => {
@@ -71,20 +82,28 @@ const CameraHandler: React.FC = () => {
 
   useEffect(() => {
     if (followRef) {
-      camera.position.set(followRef.position.x - 3, followRef.position.y + 4, followRef.position.z + 3)
-      camera.lookAt(followRef.position.x, followRef.position.y, followRef.position.z)
+      // if (activeTurnState === ActiveTurnState.MOVING) {
+      // todo - stop movementSpring
+      updatePlayerFollowCamera(followRef, camera)
+      camera.lookAt(followRef.position.x, followRef.position.y + 0.65, followRef.position.z)
+      // } else {
+      //   console.log('smooth transition')
+      //   const onRest = () => {
+      //     camera.lookAt(followRef.position.x, followRef.position.y + 0.5, followRef.position.z)
+      //   }
+      //   setMovementSpring({
+      //     to: {
+      //       position: getPlayerFollowCameraOffset(followRef)
+      //     },
+      //     onRest
+      //   })
+      // }
     }
   }, [followRef])
 
   useFrame(() => {
-    if (followRef) {
-      console.log('followRef', followRef)
-      setMovementSpring({
-        to: {
-          position: [followRef.position.x - 3, followRef.position.y + 4, followRef.position.z + 3]
-        },
-        immediate: true
-      })
+    if (followRef && activeTurnState === PlayerMoveState.MOVING) {
+      updatePlayerFollowCamera(followRef, camera)
     }
   })
   return null

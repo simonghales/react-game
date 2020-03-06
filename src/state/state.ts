@@ -1,6 +1,15 @@
-import { GameState, IGamePlayer, IGamePlayers, IGameTile, IGameTiles } from './gameState'
+import {
+  GameState,
+  IGameData,
+  IGamePlayer,
+  IGamePlayers,
+  IGameRound,
+  IGameRoundPlayerMove,
+  IGameRounds,
+  IGameTile,
+  IGameTiles
+} from './gameState'
 import { V3 } from '../utils/types'
-import { PlayerPositionKey } from './hooks'
 import { radians } from '../utils/angles'
 
 export const getPlayersSortedByJoinedTimestamp = (players: IGamePlayers): IGamePlayer[] => {
@@ -97,6 +106,13 @@ export const getDirection = (currentPosition: V3, newPosition: V3, currentDirect
   }
   console.log('no match, returning currentDirection', currentPosition, newPosition)
   return currentDirection
+}
+
+export enum PlayerPositionKey {
+  HUB = 'HUB',
+  STARTING = 'STARTING',
+  PLAYING = 'PLAYING',
+  DEFAULT = 'DEFAULT'
 }
 
 export const getPlayerPositionSteps = (
@@ -219,7 +235,7 @@ const difference = 0.05
 
 export const hasPassedTile = (position: V3, tile: IGameTile, direction: number): boolean => {
   const [xPos, yPos, zPos] = position
-  const [tileXPos, tileZPos] = tile.position
+  const [tileZPos, tileXPos] = tile.position
   if (direction === DIRECTION_EAST) {
     if (zPos >= tileZPos - difference) {
       return true
@@ -238,4 +254,66 @@ export const hasPassedTile = (position: V3, tile: IGameTile, direction: number):
     }
   }
   return false
+}
+
+export const getPlayerName = (player: IGamePlayer): string => {
+  return player.name
+}
+
+export const getPlayerScore = (player: IGamePlayer): number => {
+  return player.score
+}
+
+export const getPlayerCoins = (player: IGamePlayer): number => {
+  return player.coins
+}
+
+export const sortPlayersByScore = (players: IGamePlayers): IGamePlayer[] => {
+  return Object.values(players).sort((playerA, playerB) => {
+    return playerB.score - playerA.score
+  })
+}
+
+export const getPlayerScorePosition = (playerKey: string, players: IGamePlayers): number => {
+  const player = getPlayerFromPlayers(playerKey, players)
+  const scores: {
+    [key: number]: number
+  } = {}
+  Object.values(players).forEach(eachPlayer => {
+    scores[eachPlayer.score] = eachPlayer.score
+  })
+  const sortedScores = Object.values(scores).sort((scoreA, scoreB) => {
+    return scoreB - scoreA
+  })
+  return sortedScores.findIndex(score => {
+    return player.score === score
+  })
+}
+
+export const sortPlayersByOrder = (players: IGamePlayer[]): IGamePlayer[] => {
+  return players.sort((playerA, playerB) => {
+    return playerA.order - playerB.order
+  })
+}
+
+export const getPlayersFromGame = (game: IGameData): IGamePlayers => {
+  return game.players
+}
+
+export const getTilesFromGame = (game: IGameData): IGameTiles => {
+  return game.tiles
+}
+
+export const getRoundFromRounds = (rounds: IGameRounds, roundKey: string): IGameRound | null => {
+  const round = rounds[roundKey]
+  if (!round) return null
+  return round
+}
+
+export const getRoundActiveTurn = (round: IGameRound): IGameRoundPlayerMove | null => {
+  const { currentPlayerTurn } = round
+  if (!currentPlayerTurn) return null
+  const turn = round.playerMoves[currentPlayerTurn]
+  if (!turn) return null
+  return turn
 }

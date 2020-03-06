@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { GAME_PLAYERS, GAME_TILES, GamePlayerMdl, GamePlayersMdl, GameTileMdl, GameTilesMdl } from '../../data/game'
-import { getPlayerFromPlayers } from '../../data/player'
+import { GAME_PLAYERS, GAME_TILES, GamePlayerMdl, GamePlayersMdl, GameTileMdl, GameTilesMdl } from '../../../data/game'
+import { getPlayerFromPlayers } from '../../../data/player'
 
 export interface IActiveRoll {
   passedTiles: {

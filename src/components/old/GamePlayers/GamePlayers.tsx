@@ -7,7 +7,7 @@ import Character from '../Character/Character'
 import { GamePlayerMdl, GameTileMdl } from '../../../data/game'
 import { V3 } from '../../../utils/types'
 import { radians } from '../../../utils/angles'
-import { useGameState } from '../../GameState/GameState'
+import { useGameState } from '../GameState/GameState'
 
 interface Props {
   player: GamePlayerMdl

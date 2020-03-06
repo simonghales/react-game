@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { usePlayer, useUpdatePlayer } from '../../../../../hooks/player'
 import FieldInput from './components/FieldInput/FieldInput'
-import { useGameState } from '../../../../GameState/GameState'
+import { useGameState } from '../../../GameState/GameState'
 
 interface FieldProps {
   fieldKey: string

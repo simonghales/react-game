@@ -3,11 +3,28 @@ import { a, useSpring } from 'react-spring/three'
 import { easeQuadInOut } from 'd3-ease'
 import { IGamePlayer } from '../../state/gameState'
 import Character from '../Character/Character'
-import { PlayerPositionKey, useGetPlayerPositionSteps, usePlayerPosition, usePlayerRotation } from '../../state/hooks'
-import { useMiscStore } from '../../state/store'
+import {
+  useActivePlayer,
+  useGetPlayerPositionSteps,
+  useIsActivePlayer,
+  usePlayerPosition,
+  usePlayerRotation,
+  useShowChatBubble
+} from '../../state/hooks'
+import { useMiscStore, useLocalStore } from '../../state/store'
 import ChatBubble from '../ChatBubble/ChatBubble'
 import { V3 } from '../../utils/types'
-import { DIRECTION_NORTH, DIRECTION_SOUTH, hasPassedTile } from '../../state/state'
+import { DIRECTION_NORTH, DIRECTION_SOUTH, hasPassedTile, PlayerPositionKey } from '../../state/state'
+import { useGamePlayerScale } from './hooks'
+
+const usePassedTiles = (): [any, any] => {
+  const [passedTiles, setPassedTiles] = useState({})
+  const turnKey = useActivePlayer() // todo - potential risk of bug?
+  useEffect(() => {
+    setPassedTiles({})
+  }, [turnKey])
+  return [passedTiles, setPassedTiles]
+}
 
 interface Props {
   player: IGamePlayer
@@ -21,7 +38,20 @@ const GamePlayer: React.FC<Props> = ({ player }) => {
   const [previousPositionKey, setPreviousPositionKey] = useState<PlayerPositionKey | null>(null)
   const [positionAnimating, setPositionAnimating] = useState(false)
   const getPlayerPositionSteps = useGetPlayerPositionSteps(player.key)
-  const [passedTiles, setPassedTiles] = useState({})
+  const [passedTiles, setPassedTiles] = usePassedTiles()
+  const isActivePlayer = useIsActivePlayer(player.key)
+  const setStorePassedTiles = useLocalStore(state => state.setPassedTiles)
+  const setActiveTurnCompleted = useLocalStore(state => state.setActiveTurnCompleted)
+  const showChatBubble = useShowChatBubble()
+  const scale = useGamePlayerScale(player.key)
+
+  const passedTilesKeys = Object.keys(passedTiles)
+
+  useEffect(() => {
+    if (isActivePlayer) {
+      setStorePassedTiles(passedTilesKeys)
+    }
+  }, [passedTilesKeys.join(',')])
 
   const rotation = usePlayerRotation(player.key)
   const [direction, setDirection] = useState(rotation[1])
@@ -33,6 +63,11 @@ const GamePlayer: React.FC<Props> = ({ player }) => {
   const onRest = (finalAnimation: boolean, newDirection?: number) => {
     if (finalAnimation) {
       setPositionAnimating(false)
+      if (isActivePlayer) {
+        setTimeout(() => {
+          setActiveTurnCompleted(player.key)
+        }, 250)
+      }
     }
     if (finalAnimation && !player.boardPosition) {
       setDirection(rotation[1])
@@ -88,7 +123,7 @@ const GamePlayer: React.FC<Props> = ({ player }) => {
       const onFrame = (value: any) => {
         step.tiles.forEach(tile => {
           if (hasPassedTile(value.position, tile, step.direction)) {
-            setPassedTiles(latestState => {
+            setPassedTiles((latestState: any) => {
               return {
                 ...latestState,
                 [tile.key]: tile
@@ -117,10 +152,10 @@ const GamePlayer: React.FC<Props> = ({ player }) => {
   }, [...position])
   return (
     <a.group ref={playerRef} position={movementSpring.position}>
-      <a.group rotation={rotationSpring.rotation}>
+      <a.group rotation={rotationSpring.rotation} scale={scale}>
         <Character type={player.characterType} walking={positionAnimating} />
       </a.group>
-      <ChatBubble characterType={player.characterType} />
+      {showChatBubble && <ChatBubble characterType={player.characterType} />}
     </a.group>
   )
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { mediumHeadingCss } from '../../../../styles/typography'
 
 const InstructionWrapper = styled.div`
   position: absolute;
@@ -13,11 +14,8 @@ const InstructionWrapper = styled.div`
 `
 
 const Instruction = styled.div`
+  ${mediumHeadingCss};
   text-align: center;
-  color: #ffffff;
-  font-size: 2rem;
-  letter-spacing: 0.1px;
-  text-shadow: 0px 1px 10px rgba(53, 26, 85, 0.35);
 
   strong {
     font-weight: 900;

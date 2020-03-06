@@ -9,6 +9,7 @@ export interface IGamePlayer {
   key: string
   name: string
   score: number
+  coins: number
   boardPosition: string
   boardPositionPath: string[]
   order: number
@@ -50,13 +51,27 @@ export enum GameRoundState {
   COMPLETED = 'COMPLETED'
 }
 
+export enum PlayerMoveState {
+  PENDING = 'PENDING',
+  MOVING = 'MOVING',
+  COMPLETED = 'COMPLETED'
+}
+
+export interface IGameRoundPlayerMove {
+  key: string
+  state: PlayerMoveState
+  diceRoll: number | null
+}
+
 export interface IGameRound {
   key: string
   order: number
-  playerMoves: {}
+  playerMoves: {
+    [key: string]: IGameRoundPlayerMove
+  }
   currentPlayerTurn: string
   minigame: string
-  state: string
+  state: GameRoundState
 }
 
 export interface IGameRounds {

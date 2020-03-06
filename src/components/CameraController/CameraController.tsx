@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useFrame, useThree } from 'react-three-fiber'
-import { useGameState } from '../GameState/GameState'
+import { useGameState } from '../old/GameState/GameState'
 
 const useFollowRef = () => {
   const { activePlayer, playersRefs } = useGameState()
