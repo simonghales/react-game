@@ -148,6 +148,9 @@ export const usePlayersSortedByOrder = (): IGamePlayer[] => {
 export const useNextPlayer = (): string | null => {
   const activePlayer = useActivePlayer()
   const playersOrder = usePlayersSortedByOrder()
+  useEffect(() => {
+    console.log('playersOrder', playersOrder)
+  }, [activePlayer])
   const playerIndex = playersOrder.findIndex(player => {
     return player.key === activePlayer
   })
