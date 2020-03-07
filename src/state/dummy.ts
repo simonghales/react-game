@@ -359,7 +359,7 @@ const DUMMY_PLAYERS: IGamePlayers = {
     name: 'P3',
     coins: 0,
     score: 2,
-    order: 1,
+    order: 2,
     boardPosition: '',
     boardPositionPath: [],
     characterType: GameCharacterType.PEACH,
